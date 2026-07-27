@@ -1,71 +1,65 @@
 import 'package:flutter/material.dart';
-import 'komputer.dart' as komputer;
-import 'smartphone.dart' as smartphone;
-import 'radio.dart' as radio;
-import 'headset.dart' as headset;
 
 void main() {
-  runApp(new MaterialApp(home: new Home(), title: "Hallow"));
+  runApp(new MaterialApp(home: new Home()));
 }
 
-class Home extends StatefulWidget {
-  @override
-  _Homestate createState() => new _Homestate();
-}
-
-class _Homestate extends State<Home> with SingleTickerProviderStateMixin {
-  late TabController controller;
-
-  @override
-  void initState() {
-    controller = new TabController(length: 4, vsync: this);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.amber,
         leading: new Icon(Icons.android),
-        title: new Text("Hallo"),
-        bottom: new TabBar(
-          controller: controller,
-          tabs: <Widget>[
-            new Tab(icon: new Icon(Icons.computer), text: "Komputer"),
-            new Tab(icon: new Icon(Icons.smartphone), text: "Smartphone"),
-            new Tab(icon: new Icon(Icons.radio), text: "Radio"),
-            new Tab(icon: new Icon(Icons.headset), text: "Headset"),
-          ],
-        ),
-      ),
-      body: new TabBarView(
-        controller: controller,
-        children: <Widget>[
-          new komputer.Komputer(),
-          new smartphone.Smartphone(),
-          new radio.Radio(),
-          new headset.Headset(),
-        ],
+        title: new Text("Javier Elsyera"),
       ),
 
-      bottomNavigationBar: new Material(
-        color: Colors.amber,
-        child: new TabBar(
-          controller: controller,
-          tabs: <Widget>[
-            new Tab(icon: new Icon(Icons.computer)),
-            new Tab(icon: new Icon(Icons.smartphone)),
-            new Tab(icon: new Icon(Icons.radio)),
-            new Tab(icon: new Icon(Icons.headset)),
+      body: new Container(
+        child: new ListView(
+          children: [
+            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
+            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
+            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
+            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
+            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
+            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
+            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
+            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
+            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
+            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class Cardo extends StatelessWidget {
+  Cardo({required this.image, required this.text});
+  final String image;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      child: new Row(
+        children: [
+          new Image.asset(image, width: 200.0),
+          new Container(
+            padding: EdgeInsets.all(10.0),
+            child: new Center(
+              child: new Column(
+                children: [
+                  new Padding(padding: EdgeInsets.all(10.0)),
+                  new Text(
+                    text,
+                    style: new TextStyle(color: Colors.blue, fontSize: 20.0),
+                  ),
+                  new Text("By Javier"),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

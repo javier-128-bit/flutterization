@@ -12,7 +12,7 @@ class Komputer extends StatelessWidget {
         child: new Column(
           children: [
             new Padding(padding: EdgeInsets.all(10.0)),
-            new Icon(Icons.computer, size: 90.0),
+            new Image.asset("img/komputer.jpg", width: 200),
             new Padding(padding: EdgeInsets.all(10.0)),
             new Text(
               "Komputer",

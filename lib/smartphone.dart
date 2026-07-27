@@ -12,7 +12,7 @@ class Smartphone extends StatelessWidget {
         child: new Column(
           children: [
             new Padding(padding: EdgeInsets.all(10.0)),
-            new Icon(Icons.smartphone, size: 90.0),
+            new Image.asset("img/smarphone.jpg", width: 200),
             new Padding(padding: EdgeInsets.all(10.0)),
             new Text(
               "Smartphone",

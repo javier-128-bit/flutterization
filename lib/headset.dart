@@ -12,7 +12,12 @@ class Headset extends StatelessWidget {
         child: new Column(
           children: [
             new Padding(padding: EdgeInsets.all(10.0)),
-            new Icon(Icons.headset, size: 90.0),
+            new Image(
+              image: new NetworkImage(
+                "https://mochamad-javier-elsyera.vercel.app/assets/Pier-removebg-preview-mF6jXGfc.png",
+              ),
+              width: 200.0,
+            ),
             new Padding(padding: EdgeInsets.all(10.0)),
             new Text(
               "Headset",
