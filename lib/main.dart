@@ -1,65 +1,51 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(new MaterialApp(home: new Home()));
 }
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => new _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  List dataJson = [];
+
+  Future<void> ambilData() async {
+    http.Response hasil = await http.get(
+      Uri.parse("https://jsonplaceholder.typicode.com/posts"),
+      headers: {"Accept": "application/json"},
+    );
+
+    this.setState(() {
+      dataJson = json.decode(hasil.body);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ambilData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        leading: new Icon(Icons.android),
-        title: new Text("Javier Elsyera"),
-      ),
-
+      appBar: new AppBar(title: new Text("Javiererere")),
       body: new Container(
-        child: new ListView(
-          children: [
-            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
-            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
-            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
-            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
-            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
-            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
-            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
-            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
-            Cardo(image: "img/komputer.jpg", text: "Ini adalah komputer"),
-            Cardo(image: "img/smarphone.jpg", text: "Ini adalah Smartphone"),
-          ],
+        child: new ListView.builder(
+          itemCount: (dataJson == null ? 0 : dataJson.length),
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: new Text(dataJson[index]["title"]),
+              subtitle: new Text(dataJson[index]["body"]),
+            );
+          },
         ),
-      ),
-    );
-  }
-}
-
-class Cardo extends StatelessWidget {
-  Cardo({required this.image, required this.text});
-  final String image;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      child: new Row(
-        children: [
-          new Image.asset(image, width: 200.0),
-          new Container(
-            padding: EdgeInsets.all(10.0),
-            child: new Center(
-              child: new Column(
-                children: [
-                  new Padding(padding: EdgeInsets.all(10.0)),
-                  new Text(
-                    text,
-                    style: new TextStyle(color: Colors.blue, fontSize: 20.0),
-                  ),
-                  new Text("By Javier"),
-                ],
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
