@@ -1,97 +1,69 @@
 import 'package:flutter/material.dart';
+import 'komputer.dart' as komputer;
+import 'smartphone.dart' as smartphone;
+import 'radio.dart' as radio;
+import 'headset.dart' as headset;
 
 void main() {
-  runApp(
-    new MaterialApp(
-      title: "Haviereere",
-      home: new Nyoba(),
-      routes: <String, WidgetBuilder>{
-        '/halsatu': (BuildContext context) => new Nyoba(),
-        '/haldua': (BuildContext context) => new Nyobs(),
-      },
-    ),
-  );
+  runApp(new MaterialApp(home: new Home(), title: "Hallow"));
 }
 
-class Nyoba extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _Homestate createState() => new _Homestate();
+}
+
+class _Homestate extends State<Home> with SingleTickerProviderStateMixin {
+  late TabController controller;
+
+  @override
+  void initState() {
+    controller = new TabController(length: 4, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.blue,
-        leading: Icon(Icons.android),
-        title: new Text("Javaieerre"),
-      ),
-      body: new Container(
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            MyCard(
-              icon: Icons.home,
-              color: Colors.black,
-              text: "Home",
-              routename: "/haldua",
-            ),
+        backgroundColor: Colors.amber,
+        leading: new Icon(Icons.android),
+        title: new Text("Hallo"),
+        bottom: new TabBar(
+          controller: controller,
+          tabs: <Widget>[
+            new Tab(icon: new Icon(Icons.computer), text: "Komputer"),
+            new Tab(icon: new Icon(Icons.smartphone), text: "Smartphone"),
+            new Tab(icon: new Icon(Icons.radio), text: "Radio"),
+            new Tab(icon: new Icon(Icons.headset), text: "Headset"),
           ],
         ),
       ),
-    );
-  }
-}
-
-class Nyobs extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Colors.blue,
-        leading: Icon(Icons.android),
-        title: new Text("Javaieerre"),
+      body: new TabBarView(
+        controller: controller,
+        children: <Widget>[
+          new komputer.Komputer(),
+          new smartphone.Smartphone(),
+          new radio.Radio(),
+          new headset.Headset(),
+        ],
       ),
-      body: new Container(
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            MyCard(
-              icon: Icons.tap_and_play,
-              color: Colors.greenAccent,
-              text: "Home",
-              routename: "/halsatu",
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
-class MyCard extends StatelessWidget {
-  MyCard({
-    required this.icon,
-    required this.color,
-    required this.text,
-    required this.routename,
-  });
-
-  final IconData icon;
-  final Color color;
-  final String text;
-  final String routename;
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      padding: EdgeInsets.all(10.0),
-      child: new Card(
-        child: new Column(
-          children: <Widget>[
-            new IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, routename);
-              },
-              icon: new Icon(icon, size: 50.0, color: color),
-            ),
-            new Text(text),
+      bottomNavigationBar: new Material(
+        color: Colors.amber,
+        child: new TabBar(
+          controller: controller,
+          tabs: <Widget>[
+            new Tab(icon: new Icon(Icons.computer)),
+            new Tab(icon: new Icon(Icons.smartphone)),
+            new Tab(icon: new Icon(Icons.radio)),
+            new Tab(icon: new Icon(Icons.headset)),
           ],
         ),
       ),
