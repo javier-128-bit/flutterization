@@ -1,97 +1,88 @@
 import 'package:flutter/material.dart';
+import 'detail.dart';
 
 void main() {
-  runApp(new MaterialApp(title: "Javierere", home: new Home()));
+  runApp(new MaterialApp(title: "Konz", home: new Home()));
 }
 
 class Home extends StatefulWidget {
   @override
-  _HomeState createState() => new _HomeState();
+  _Homestate createState() => _Homestate();
 }
 
-class _HomeState extends State<Home> {
-  final TextEditingController controllerInput = new TextEditingController();
-  final TextEditingController controllerAlert = new TextEditingController();
-  final TextEditingController controllerSnackBar = new TextEditingController();
+class _Homestate extends State<Home> {
+  String gambar1 = "img/komputer.jpg";
+  String gambar2 = "img/smarphone.jpg";
+  String backup = "";
 
-  String teks = "";
+  String nama1 = "Javier";
+  String nama2 = "Ilham";
+  String backupnama = "";
 
-  void _snackBar(BuildContext context, String str) {
-    if (str.isEmpty) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(str), duration: new Duration(seconds: 3)),
-    );
+  void gantiUser() {
+    setState(() {
+      backup = gambar1;
+      gambar1 = gambar2;
+      gambar2 = backup;
+    });
   }
 
-  void _alertDialog(str) {
-    if (str.isEmpty) return;
-    AlertDialog alertDialog = new AlertDialog(
-      content: new Text(
-        str,
-        style: new TextStyle(color: Colors.black, fontSize: 20.0),
-      ),
-      actions: <Widget>[
-        new ElevatedButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: new Text("Ok"),
-        ),
-      ],
-    );
-    showAboutDialog(context: context, children: [alertDialog]);
+  void gantiNama() {
+    setState(() {
+      backup = nama1;
+      nama1 = nama2;
+      nama2 = backup;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("This Is Javier"),
-        backgroundColor: Colors.purple,
+        title: new Text("Nyoba drawer katanya canggih nih"),
+        backgroundColor: Colors.red,
       ),
-
-      body: new Container(
-        child: new Column(
+      drawer: new Drawer(
+        child: new ListView(
           children: [
-            new TextField(
-              controller: controllerInput,
-              decoration: new InputDecoration(hintText: "Tulis Disini Dongs"),
-              onSubmitted: (String str) {
-                setState(() {
-                  teks = str + "\n" + teks;
-                  controllerInput.text = "";
-                });
-              },
+            new UserAccountsDrawerHeader(
+              currentAccountPicture: new GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          new Detail(nama: nama1, image: gambar1),
+                    ),
+                  );
+                },
+                child: new CircleAvatar(backgroundImage: AssetImage(gambar1)),
+              ),
+              accountName: new Text(nama1),
+              accountEmail: new Text("Javier@gmail.com"),
+              decoration: new BoxDecoration(color: Colors.red),
+              otherAccountsPictures: [
+                GestureDetector(
+                  onTap: () {
+                    gantiUser();
+                    gantiNama();
+                  },
+                  child: new CircleAvatar(backgroundImage: AssetImage(gambar2)),
+                ),
+              ],
             ),
-            new Text(
-              teks,
-              style: TextStyle(fontSize: 20.0, color: Colors.black),
+            new ListTile(
+              title: new Text("Setting"),
+              trailing: new Icon(Icons.settings),
             ),
-
-            new TextField(
-              controller: controllerAlert,
-              decoration: new InputDecoration(hintText: "Tulis Disini Dongs"),
-              onSubmitted: (String str) {
-                setState(() {
-                  _alertDialog(str);
-                  controllerAlert.text = "";
-                });
-              },
-            ),
-
-            new TextField(
-              controller: controllerSnackBar,
-              decoration: new InputDecoration(hintText: "Tulis Disini Dongs"),
-              onSubmitted: (String str) {
-                setState(() {
-                  _snackBar(context, str);
-                });
-              },
+            new ListTile(
+              title: new Text("Close"),
+              trailing: new Icon(Icons.close),
             ),
           ],
         ),
       ),
+      body: new Container(),
     );
   }
 }
