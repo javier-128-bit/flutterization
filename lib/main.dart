@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 void main() {
   runApp(MaterialApp(home: Home()));
@@ -7,124 +6,159 @@ void main() {
 
 class Home extends StatefulWidget {
   @override
-  _Homestate createState() => _Homestate();
+  _HomeState createState() => _HomeState();
 }
 
-class _Homestate extends State<Home> {
-  final List<String> gambar = [
-    "img/Javier.jpeg",
-    "img/Pilemon.jpeg",
-    "img/Sutha.jpeg",
-  ];
+class _HomeState extends State<Home> {
+  List<String> agama = ["Islam", "Hindu", "Kristen", "Katolik", "Kong hu cu"];
+  String _agama = "Islam";
+  String _jk = "";
 
-  @override
-  Widget build(BuildContext context) {
-    timeDilation = 5.0;
-    return Scaffold(
-      appBar: AppBar(title: Text("Choose your hero bcc")),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: FractionalOffset.topRight,
-            end: FractionalOffset.bottomLeft,
-            colors: [Colors.red, Colors.redAccent],
-          ),
-        ),
-        child: PageView.builder(
-          controller: PageController(viewportFraction: 0.87),
-          itemCount: gambar.length,
-          itemBuilder: (BuildContext context, int i) {
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 22.0),
-              child: Material(
-                borderRadius: BorderRadius.circular(15.0),
-                elevation: 8.0,
-                clipBehavior: Clip.antiAlias,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Hero(
-                      tag: gambar[i],
+  TextEditingController controllerNama = TextEditingController();
+  TextEditingController controllerPassword = TextEditingController();
+  TextEditingController controllerMotto = TextEditingController();
 
-                      child: InkWell(
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                HalamanDua(gambar: gambar[i]),
-                          ),
-                        ),
-                        child: Image.asset(gambar[i], fit: BoxFit.cover),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class HalamanDua extends StatefulWidget {
-  const HalamanDua({required this.gambar});
-
-  final String gambar;
-
-  @override
-  State<HalamanDua> createState() => _HalamanDuaState();
-}
-
-class _HalamanDuaState extends State<HalamanDua> {
-  Color warna = Colors.grey;
-  void _pilihannya(Pilihan pilihan) {
+  void _pilihjk(value) {
     setState(() {
-      warna = pilihan.warna;
+      _jk = value;
     });
   }
 
+  void _pilihagama(value) {
+    setState(() {
+      _agama = value;
+    });
+  }
+
+  void _kirimdata() {
+    AlertDialog alertDialog = AlertDialog(
+      content: SizedBox(
+        height: 200.0,
+        child: Column(
+          children: [
+            Text("Nama: ${controllerNama.text}"),
+            Text("Password: ${controllerPassword.text}"),
+            Text("Motto: ${controllerMotto.text}"),
+            Text("Jenis Kelamin: $_jk"),
+            Text("Agama: $_agama"),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alertDialog;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("The Hero"),
-        backgroundColor: Colors.grey,
-        actions: [
-          PopupMenuButton<Pilihan>(
-            onSelected: _pilihannya,
-            itemBuilder: (BuildContext context) {
-              return listPilihan.map((Pilihan x) {
-                return PopupMenuItem<Pilihan>(child: Text(x.teks), value: x);
-              }).toList();
-            },
-          ),
-        ],
-      ),
-      body: Stack(
+      appBar: AppBar(title: Text("Form")),
+
+      body: ListView(
         children: [
           Container(
-            decoration: BoxDecoration(
-              gradient: RadialGradient(
-                colors: [Colors.blue, warna, Colors.black],
-              ),
-            ),
-          ),
-          Center(
-            child: Hero(
-              tag: widget.gambar,
-              child: ClipOval(
-                child: SizedBox(
-                  width: 200.0,
-                  height: 200.0,
-                  child: Material(
-                    child: InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Image.asset(widget.gambar, fit: BoxFit.cover),
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                TextField(
+                  controller: controllerNama,
+                  decoration: InputDecoration(
+                    hintText: "Nama",
+                    labelText: "Nama",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),
                 ),
-              ),
+
+                Padding(padding: EdgeInsetsGeometry.all(10.0)),
+                TextField(
+                  controller: controllerPassword,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    labelText: "Password",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+
+                Padding(padding: EdgeInsetsGeometry.all(10.0)),
+                TextField(
+                  maxLines: 3,
+                  controller: controllerMotto,
+                  decoration: InputDecoration(
+                    hintText: "Moto",
+                    labelText: "Moto",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                  ),
+                ),
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(padding: EdgeInsetsGeometry.only(top: 20.0)),
+                    Text("Pilih Jenis Kelamin", textAlign: TextAlign.start),
+                    RadioListTile(
+                      value: "Laki Laki",
+                      title: Text("Laki Laki"),
+                      groupValue: _jk,
+                      onChanged: (value) {
+                        _pilihjk(value);
+                      },
+                      activeColor: Colors.red,
+                    ),
+
+                    RadioListTile(
+                      value: "Cewek",
+                      title: Text("Cewek"),
+                      groupValue: _jk,
+                      onChanged: (value) {
+                        _pilihjk(value);
+                      },
+                      activeColor: Colors.red,
+                    ),
+
+                    Padding(padding: EdgeInsetsGeometry.only(top: 20.0)),
+                    Row(
+                      children: [
+                        Text("Agama: "),
+                        DropdownButton(
+                          value: _agama,
+                          onChanged: (value) {
+                            _pilihagama(value);
+                          },
+                          items: agama.map((String value) {
+                            return DropdownMenuItem(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+
+                    ElevatedButton(
+                      onPressed: () {
+                        _kirimdata();
+                      },
+                      child: Text("Kirim"),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
@@ -132,16 +166,3 @@ class _HalamanDuaState extends State<HalamanDua> {
     );
   }
 }
-
-class Pilihan {
-  const Pilihan({required this.teks, required this.warna});
-
-  final String teks;
-  final Color warna;
-}
-
-List<Pilihan> listPilihan = const <Pilihan>[
-  const Pilihan(teks: "Reddorz", warna: Colors.red),
-  const Pilihan(teks: "Billions", warna: Colors.white),
-  const Pilihan(teks: "Bca", warna: Colors.blue),
-];
