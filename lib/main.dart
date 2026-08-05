@@ -14,7 +14,7 @@ class _HomeState extends State<Home> {
   String _agama = "Islam";
   String _jk = "";
 
-  TextEditingController controllerNama = TextEditingController();
+  TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   TextEditingController controllerMotto = TextEditingController();
 
@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
         height: 200.0,
         child: Column(
           children: [
-            Text("Nama: ${controllerNama.text}"),
+            Text("Email: ${controllerEmail.text}"),
             Text("Password: ${controllerPassword.text}"),
             Text("Motto: ${controllerMotto.text}"),
             Text("Jenis Kelamin: $_jk"),
@@ -70,10 +70,10 @@ class _HomeState extends State<Home> {
             child: Column(
               children: [
                 TextField(
-                  controller: controllerNama,
+                  controller: controllerEmail,
                   decoration: InputDecoration(
-                    hintText: "Nama",
-                    labelText: "Nama",
+                    hintText: "Email",
+                    labelText: "Email",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
