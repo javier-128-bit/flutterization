@@ -10,8 +10,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<String> agama = ["Islam", "Hindu", "Kristen", "Katolik", "Kong hu cu"];
-  String _agama = "Islam";
+  List<String> jurusan = ["INFOR", "SI"];
+  String _jurusan = "Ekonomi";
   String _jk = "";
 
   TextEditingController controllerEmail = TextEditingController();
@@ -24,9 +24,9 @@ class _HomeState extends State<Home> {
     });
   }
 
-  void _pilihagama(value) {
+  void _pilihjurusan(value) {
     setState(() {
-      _agama = value;
+      _jurusan = value;
     });
   }
 
@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
             Text("Password: ${controllerPassword.text}"),
             Text("Motto: ${controllerMotto.text}"),
             Text("Jenis Kelamin: $_jk"),
-            Text("Agama: $_agama"),
+            Text("jurusan: $_jurusan"),
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               child: Text("OK"),
@@ -134,13 +134,13 @@ class _HomeState extends State<Home> {
                     Padding(padding: EdgeInsetsGeometry.only(top: 20.0)),
                     Row(
                       children: [
-                        Text("Agama: "),
+                        Text("jurusan: "),
                         DropdownButton(
-                          value: _agama,
+                          value: _jurusan,
                           onChanged: (value) {
-                            _pilihagama(value);
+                            _pilihjurusan(value);
                           },
-                          items: agama.map((String value) {
+                          items: jurusan.map((String value) {
                             return DropdownMenuItem(
                               value: value,
                               child: Text(value),
