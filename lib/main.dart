@@ -11,8 +11,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List<String> jurusan = ["INFOR", "SI"];
-  String _jurusan = "Ekonomi";
-  String _jk = "";
+  String _jurusan = "Ekonom";
+  String _jk = "uii";
 
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
